@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const product = require ("./controllers");
+const authUser = require("../Auth/middleware");
 const upload = require("../config/multerconfig");
 
 //1.read All

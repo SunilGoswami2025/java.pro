@@ -1,22 +1,25 @@
 const User = require("../Users/model");
-// const bcrypt = require("bcryptjs");
+const bcrypt = require("bcryptjs");
+const User_Role = require("./createAdmin");
 // const soltRound = process.env.
 
 
 // Register user
 
-const register = async (req, res) => {
-  try {
-    const { username, email, password, roles} = req.body;
 
-    if (!username || !email || !password) {
+const register = async (req, res) => {
+
+    const { username, email, password, role} = req.body;
+
+       if (!username || !email || !password) {
       return res.status(400).json({ msg: "Please provide all required fields" });
     }
-    // roles = roles || "user"; // Default to 'user' if no role is provided
- 
+  try {
 
-    const user = await User.create({ username, email, password, roles });
-    return res.status(201).json({ msg: "User created", data: user });
+if(role === User_Role.ADMIN)return res.status(403).json({msg:"U can't Register"})
+
+    const user = await User.create({ username, email, password, role });
+    return res.status(201).json({ msg: "User created", data:{id:newUser._id, username:user.username, email:user.email} });
 
   } catch (error) {
     console.error(error);
@@ -37,21 +40,21 @@ const login = async (req, res) => {
     if (!user) {
       return res.status(404).json({ msg: "User not found" });
     }
+if(user.password !== password)return res.status(401).json({msg:"Invalid Password"})
+ 
 
-    // bcrypt.compare(password, user.password)
-    // if(!password) {
-    //   return res.status(400).json({ msg: "Please provide a password" });
-    // }
-
-    if (user.password !== password) {
-      return res.status(401).json({ msg: "Invalid password" });
-    }
+  // Session
+  req.session.user = {
+    id:user._id,
+    username: user.username,
+    email: user.email
+  }
 
     return res
       .status(200)
       .json({
         msg: "User logged in successfully",
-        data: { username: user.username, email: user.email },
+       user:req.session.user
       });
   } catch (error) {
     console.error(error);

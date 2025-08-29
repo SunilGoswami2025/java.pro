@@ -1,18 +1,19 @@
 const Product = require("./model");
+const Users = require("../Users/model")
 const express = require("express");
 const mongoose = require("mongoose");
 
 // getAll products
 const getAll = async (req, res) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find().populate("user","password__")
 
-    console.log("Session data:", req.session.data);
-    if (req.session?.data) {
-      req.session.data = req.session.data + 1;
-    } else {
-      req.session.data = 1;
-    }
+    // console.log("Session data:", req.session.data);
+    // if (req.session?.data) {
+    //   req.session.data = req.session.data + 1;
+    // } else {
+    //   req.session.data = 1;
+    // }
 
     return res.status(200).json({
       data: products,

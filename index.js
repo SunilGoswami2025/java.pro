@@ -2,10 +2,12 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
+const cookieparser = require("cookie-parser")
 const path = require("path");
 const MongoStore = require("connect-mongo")(session);
 
 const app = express();
+app.use(cookieparser);
 app.use(express.json());
 
 const port = 8000;
@@ -16,10 +18,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-       httpOnly: true,
-       secure: false, 
-       sameSite: "Lax"
-      },
+       httpOnly: true,secure: false, sameSite: "Lax"},
     store: new MongoStore({
       url: "mongodb://localhost:27017/Auth_Product",
       ttl: 14 * 24 * 60 * 60, 

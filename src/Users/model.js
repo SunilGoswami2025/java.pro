@@ -5,14 +5,14 @@ const userSchema = new mongoose.Schema({
         type: String, 
         // required:[ true,"please provide a username"],
         // unique:[true,"username must be unique"],
-        // match: [/^[a-zA-Z0-9]+$/, "Username can only contain letters and numbers"],
+       
     },
 
     email: {
          type: String,
         //  required: [true, "please provide an email"],
         //  unique: true,
-        //  match: [/^\S+@\S+\.\S+$/, "Please provide a valid email address"] 
+      
           },
 
     password: { 
@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
         
           },
    
- roles:{type: String, enum: ['admin', 'user'], default: 'user' },
+ roles:{type: Number}
 
 
     // createdAt: { type: Date, default: Date.now }

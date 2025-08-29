@@ -20,7 +20,7 @@ const getAll = async (req, res) => {
   }
 };
 
-// Get one product by ID
+
 const getOne = async (req, res) => {
 
   try {
